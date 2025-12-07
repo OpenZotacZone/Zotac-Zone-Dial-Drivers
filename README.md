@@ -1,4 +1,5 @@
 # Zotac Zone Dial Driver for Linux
+[![OpenZONE Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/YFhK768cex)
 
 The rotary dials (jog wheels) on the Zotac Zone have been pretty useless. On Linux they had no functionality at all and even on Windows they were limited to brightness, volume and RGB control. This driver allows you to finally make use of the dials.
 
