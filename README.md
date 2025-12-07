@@ -67,9 +67,21 @@ To remove the driver, stop the service, and clean up all files:
 
     sudo ./uninstall_zone_dial_drivers.sh
 
+## Troubleshooting 
+
+### Problem: Turning the right dial opens the display mirroring options
+
+To fix this, you must manually disable this shortcut in your OS settings:
+
+1. Open **System Settings**
+2. Go to **Shortcuts**
+3. Search for **"Switch Display"**
+4. Uncheck all the checkboxes
+5. Click **Apply**
+
 ## Future plans
 
-> We are planning to write a Decky plugin to configure the driver directly in Steam Gaming Mode
+* We are planning to write a Decky plugin to configure the mapping directly in Steam Gaming Mode
 
 ## Changelog
 
