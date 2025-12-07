@@ -76,6 +76,7 @@ To remove the driver, stop the service, and clean up all files:
 ### v1.3.0
 * **New Feature:** Added "Direct Backlight Control".
     * *Fixes an issue where brightness control would not work in SteamOS/Bazzite Gaming Mode (Gamescope).* The driver now writes directly to the hardware backlight controller instead of simulating keyboard keys.
+* * **New Feature:** Installer Script now allows you to download the latest version from github.
 * **Fix:** Improved installer menu visibility.
 
 ### v1.2.1
