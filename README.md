@@ -5,7 +5,7 @@ The rotary dials (jog wheels) on the Zotac Zone have been pretty useless. On Lin
 
 Since there is no official Linux driver for these controls, this script reverse-engineers the HID protocol to map the dials to useful system functions like Volume, Brightness, or Mouse Scrolling.
 
-**Works on:** Bazzite, Fedora. Other distributions have not been tested, so feel free to give us feedback.
+**Tested on:** Bazzite, Fedora, CachyOS. Other distributions have not yet been tested, so feel free to give us feedback.
 
 ## Features
 
