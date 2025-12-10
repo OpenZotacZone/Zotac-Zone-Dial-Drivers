@@ -2,7 +2,7 @@
 
 # Zotac Zone Dial Driver Installer / Configurator
 # Author: Pfahli
-# Version: 1.3.0 (Added GitHub Download)
+# Version: 1.3.2 (Added Arch Linux Support)
 
 # --- Configuration ---
 INSTALL_DIR="/usr/local/bin"
@@ -14,7 +14,6 @@ CONFIG_PATH="$INSTALL_DIR/$CONFIG_NAME"
 
 # GitHub Settings
 GITHUB_REPO_URL="https://github.com/OpenZotacZone/Zotac-Zone-Dial-Drivers"
-# We need the RAW url to download the file. Assuming 'main' branch.
 GITHUB_RAW_URL="https://raw.githubusercontent.com/OpenZotacZone/Zotac-Zone-Dial-Drivers/main/zone_dial_drivers.py"
 
 # Colors
@@ -30,7 +29,7 @@ get_function_choice() {
     local prompt="$1"
     local default_val="$2"
     local choice_name=""
-
+    
     # Send menu to stderr so it shows up on screen
     {
         echo -e "${CYAN}$prompt${NC}"
@@ -44,7 +43,7 @@ get_function_choice() {
         echo "  8) page_scroll       (PageUp/PageDown)"
         echo "  9) zoom              (Browser Zoom)"
     } >&2
-
+    
     read -p "Select a number [Default: $default_val]: " selection
 
     case $selection in
@@ -59,7 +58,7 @@ get_function_choice() {
         9) choice_name="zoom" ;;
         *) choice_name="$default_val" ;;
     esac
-
+    
     echo "$choice_name"
 }
 
@@ -67,10 +66,10 @@ create_config_interactive() {
     echo -e "\n${YELLOW}--- Dial Configuration ---${NC}"
     local def_left="volume"
     local def_right="brightness"
-
+    
     local left_val=$(get_function_choice "Function for the LEFT Dial:" "$def_left")
     echo -e "-> Left set to: ${GREEN}$left_val${NC}\n"
-
+    
     local right_val=$(get_function_choice "Function for the RIGHT Dial:" "$def_right")
     echo -e "-> Right set to: ${GREEN}$right_val${NC}\n"
 
@@ -88,11 +87,10 @@ download_latest() {
     echo -e "\n${CYAN}Check for updates?${NC}"
     echo "This will download the latest '$SCRIPT_NAME' from:"
     echo "$GITHUB_REPO_URL"
-
+    
     read -p "Download latest version now? [y/N]: " dl_choice
     if [[ "$dl_choice" =~ ^[Yy]$ ]]; then
         echo "Downloading..."
-        # Check if curl exists
         if command -v curl &> /dev/null; then
             if curl -L -o "$SCRIPT_NAME" "$GITHUB_RAW_URL"; then
                 echo -e "${GREEN}Download successful.${NC}"
@@ -115,7 +113,6 @@ download_latest() {
 
 # --- Main Script ---
 
-# Check Root
 if [ "$EUID" -ne 0 ]; then
   echo -e "${RED}Please run as root (sudo ./install_zone_dial_drivers.sh)${NC}"
   exit 1
@@ -133,7 +130,7 @@ if [ "$IS_INSTALLED" = true ]; then
     echo "  1) Only change the dial configuration"
     echo "  2) Update driver (Download/Reinstall) & Configure"
     read -p "Selection [1]: " update_choice
-
+    
     if [ "$update_choice" != "2" ]; then
         create_config_interactive
         echo "Restarting service..."
@@ -158,8 +155,24 @@ fi
 # 3. Dependencies
 echo "Checking dependencies..."
 if ! python3 -c "import evdev" &> /dev/null; then
-    echo -e "${YELLOW}'evdev' missing. Installing via pip...${NC}"
-    pip install evdev --break-system-packages || pip install evdev
+    echo -e "${YELLOW}'evdev' module missing.${NC}"
+    
+    # Check if we are on Arch Linux (or derivatives like CachyOS/Endeavour)
+    if command -v pacman &> /dev/null; then
+        echo -e "${CYAN}Arch Linux detected. Installing 'python-evdev' via pacman...${NC}"
+        # --noconfirm allows script to run without user input during install
+        # --needed prevents reinstalling if it's already there (safety check)
+        if pacman -S --noconfirm --needed python-evdev; then
+             echo -e "${GREEN}Successfully installed python-evdev via pacman.${NC}"
+        else
+             echo -e "${RED}Pacman install failed. Attempting fallback to pip...${NC}"
+             pip install evdev --break-system-packages || pip install evdev
+        fi
+    else
+        # Fedora / Bazzite / Ubuntu / Others
+        echo -e "${YELLOW}Installing via pip...${NC}"
+        pip install evdev --break-system-packages || pip install evdev
+    fi
 fi
 
 # 4. Copy Script
