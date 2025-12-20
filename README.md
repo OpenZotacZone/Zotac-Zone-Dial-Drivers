@@ -1,6 +1,18 @@
 # Zotac Zone Dial Driver for Linux
 [![OpenZONE Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/YFhK768cex)
 
+# ⚠️OBSOLETE
+
+The standalone Dial Drivers have been discontinued. They have been rewritten and fully integrated into the main **OpenZONE Driver Suite**.
+The new script also allows for configuration of the back buttons and RGB lights on the back of the device.
+
+## 👉 **[GO HERE FOR THE NEW DRIVERS](https://github.com/OpenZotacZone/ZotacZone-Drivers)**
+**(https://github.com/OpenZotacZone/ZotacZone-Drivers)**
+
+---
+
+# Old readme (for archival purposes)
+
 The rotary dials (jog wheels) on the Zotac Zone have been pretty useless. On Linux they had no functionality at all and even on Windows they were limited to brightness, volume and RGB control. This driver allows you to finally make use of the dials.
 
 Since there is no official Linux driver for these controls, this script reverse-engineers the HID protocol to map the dials to useful system functions like Volume, Brightness, or Mouse Scrolling.
